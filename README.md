@@ -1,6 +1,5 @@
-# retail_sales_analytics
-This repository is used for developing Sales Analytics project
-------------------------------------------------------------------------------------------
+# Retail Sales Analytics
+
 
 # Data Architecture for Sales Analytics Project
 
@@ -57,4 +56,4 @@ This project involves setting up a scalable and governed data pipeline for sales
 
 ## Architecture Diagram
 
-![Data Architecture Diagram](DA_diagram.png)
+
