@@ -1,0 +1,1 @@
+create schema if not exists processing_catalog.curated_layer
