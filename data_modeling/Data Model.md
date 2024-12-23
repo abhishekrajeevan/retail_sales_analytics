@@ -1,6 +1,6 @@
 # Data Model Overview
 
-## The products has a medallion arhitecture with Raw, Harmonizd and Curated layer. We have a star schema model in Harmonnized layer and this will be open for different teams to get the cleased, latest and greatest data.
+## The products has a medallion arhitecture with Raw, Harmonizd and Curated layer. We have a star schema model in Harmonized layer and this will be can be used by different teams to get the cleansed, latest and greatest data. The KPIs and consumption for BI workloads is via Curated layer only
 
 ## 1. Dimension Tables
 
