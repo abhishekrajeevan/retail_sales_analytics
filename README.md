@@ -55,5 +55,5 @@ This project involves setting up a scalable and governed data pipeline for sales
    - Manages Delta Tables for `raw`, `harmonized`, and `curated` schemas.
 
 ## Architecture Diagram
-
+https://github.com/abhishekrajeevan/retail_sales_analytics/blob/main/DA_diagram.png
 
