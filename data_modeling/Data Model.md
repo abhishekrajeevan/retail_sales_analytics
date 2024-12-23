@@ -1,8 +1,10 @@
 # Data Model Overview
 
+## The products has a medallion arhitecture with Raw, Harmonizd and Curated layer. We have a star schema model in Harmonnized layer and this will be open for different teams to get the cleased, latest and greatest data.
+
 ## 1. Dimension Tables
 
-### `dim_stores`
+### `t_stores`
 Contains store-related attributes:
 - `store_id` (Primary Key)
 - `store_name`
@@ -10,7 +12,7 @@ Contains store-related attributes:
 - `manager_id`
 - `opening_date`
 
-### `dim_customers`
+### `t_customers`(SCD2)
 Contains customer-related attributes:
 - `customer_id` (Primary Key)
 - `first_name`
@@ -21,7 +23,7 @@ Contains customer-related attributes:
 - `membership_status`
 - `address`
 
-### `dim_products`
+### `t_products`
 Contains product-related attributes:
 - `product_id` (Primary Key)
 - `product_name`
@@ -35,7 +37,7 @@ Contains product-related attributes:
 
 ## 2. Fact Tables
 
-### `sales_transactions`
+### `t_sales_transactions`
 Captures high-level transactional data:
 - `invoice_id` (Primary Key)
 - `store_id` (Foreign Key)
@@ -44,7 +46,7 @@ Captures high-level transactional data:
 - `payment_type`
 - `total_amount`
 
-### `sales_line_items`
+### `t_sales_line_items`
 Provides line-item details for transactions:
 - `line_item_id` (Primary Key)
 - `invoice_id` (Foreign Key)
@@ -54,7 +56,7 @@ Provides line-item details for transactions:
 - `total_price`
 - `discount_applied`
 
-### `sales_facts`
+### `t_sales_facts`
 Central fact table combining transactional and line-item data:
 - `invoice_id` (Primary Key)
 - `line_item_id`
@@ -72,12 +74,12 @@ Central fact table combining transactional and line-item data:
 The data model follows a **Star Schema** design:
 - **Fact Table**: `sales_facts`
 - **Dimension Tables**: 
-  - `dim_stores`
-  - `dim_customers`
-  - `dim_products`
+  - `t_stores`
+  - `t_customers`
+  - `t_products`
 
 ## 4. Data Relationships
 - `sales_facts` links to:
-  - `dim_stores` via `store_id`
-  - `dim_customers` via `customer_id`
-  - `dim_products` via `product_id`
+  - `t_stores` via `store_id`
+  - `t_customers` via `customer_id`
+  - `t_products` via `product_id`
