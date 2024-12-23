@@ -1,0 +1,84 @@
+resources:
+  jobs:
+    products_job:
+      name: products_job
+      email_notifications:
+        on_success:
+          - abhishekrajeevan910@gmail.com
+        on_failure:
+          - abhishekrajeevan910@gmail.com
+
+      tasks:
+        - task_key: raw_dimensions_ddl
+          notebook_task:
+            notebook_path: ../notebooks/raw_dimensions_ddl.ipynb
+            # source: WORKSPACE
+          job_cluster_key: Job_cluster
+          email_notifications:
+            on_success:
+              - abhishekrajeevan910@gmail.com
+            on_failure:
+              - abhishekrajeevan910@gmail.com
+
+        - task_key: raw_stores_ingestion
+          depends_on:
+            - task_key: raw_dimensions_ddl
+          notebook_task:
+            notebook_path: ../notebooks/raw_dimensions_ingestion.ipynb
+            # source: WORKSPACE
+          job_cluster_key: Job_cluster
+          email_notifications:
+            on_success:
+              - abhishekrajeevan910@gmail.com
+            on_failure:
+              - abhishekrajeevan910@gmail.com
+
+        - task_key: harmonized_dimesnisons_ddl
+          depends_on:
+            - task_key: raw_stores_ingestion
+          notebook_task:
+            notebook_path: ../notebooks/harmonized_dimensions_ddl.ipynb
+            # source: WORKSPACE
+          job_cluster_key: Job_cluster
+          
+        - task_key: product_harmonization
+          depends_on:
+            - task_key: harmonized_dimesnisons_ddl
+          spark_python_task:
+            python_file: ../scripts/product_harmonization.py
+          job_cluster_key: Job_cluster
+          email_notifications:
+            on_success:
+              - abhishekrajeevan910@gmail.com
+            on_failure:
+              - abhishekrajeevan910@gmail.com
+
+      job_clusters:
+        - job_cluster_key: Job_cluster
+          new_cluster:
+            cluster_name: ""
+            spark_version: 15.4.x-scala2.12
+            spark_conf:
+              spark.master: local[*, 4]
+              spark.databricks.cluster.profile: singleNode
+            gcp_attributes:
+              use_preemptible_executors: true
+              availability: ON_DEMAND_GCP
+              zone_id: HA
+            node_type_id: n2-highmem-2
+            driver_node_type_id: n2-highmem-2
+            custom_tags:
+              ResourceClass: SingleNode
+              env: test
+              function: sales_analytics
+            spark_env_vars:
+              PYSPARK_PYTHON: /databricks/python3/bin/python3
+            enable_elastic_disk: true
+            data_security_mode: SINGLE_USER
+            runtime_engine: STANDARD
+            num_workers: 0
+      tags:
+        env: dev
+        function: sales_analytics
+      queue:
+        enabled: true
