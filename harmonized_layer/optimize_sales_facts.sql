@@ -1,0 +1,2 @@
+optimize processing_catalog.schema_harmonized_facts.t_sales_facts
+zorder by customer_id, product_id, store_id
